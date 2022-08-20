@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Android</string>
+    <string name="countClicks">Count of clicks: 0</string>
+    <string name="add_count">Add count</string>
+</resources>
