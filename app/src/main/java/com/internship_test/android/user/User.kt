@@ -1,7 +1,5 @@
 package com.internship_test.android.user
 
-class User(name: String, age: Int) {
-    val name = name
-    val age = age
+class User(val name: String, val age: String) {
     val isStudent = false
 }

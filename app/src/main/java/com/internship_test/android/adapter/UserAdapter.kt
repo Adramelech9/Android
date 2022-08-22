@@ -27,7 +27,7 @@ class UserAdapter(private val listener: Listener, private val user: ArrayList<Us
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         holder.userName.text = user[position].name
-        holder.userAge.text = user[position].age.toString()
+        holder.userAge.text = user[position].age
         holder.userIsStudent.text = user[position].isStudent.toString()
 
         holder.itemView.setOnClickListener {
