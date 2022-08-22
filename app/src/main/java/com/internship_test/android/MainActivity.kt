@@ -65,6 +65,6 @@ class MainActivity : AppCompatActivity(), UserAdapter.Listener {
             addToBackStack(null)
             commit()
         }
-        Toast.makeText(this, "${user.age}", Toast.LENGTH_LONG).show()
+        //Toast.makeText(this, "${user.age}", Toast.LENGTH_LONG).show()
     }
 }

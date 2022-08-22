@@ -49,7 +49,7 @@
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.fragment.app.FragmentContainerView
+    <FrameLayout
         android:id="@+id/fragmentContainerView2"
         android:name="com.internship_test.android.UserDetailFragment"
         android:layout_width="0dp"
@@ -60,6 +60,6 @@
         app:layout_constraintStart_toStartOf="@+id/userRecycler"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.998"
-        tools:layout="@layout/fragment_user_datail" />
+        tools:layout="@layout/fragment_user_detail" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
