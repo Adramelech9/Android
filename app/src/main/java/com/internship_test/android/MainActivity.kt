@@ -1,7 +1,10 @@
 package com.internship_test.android
 
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.widget.TextView
+import android.view.MenuItem
+import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -11,13 +14,19 @@ import com.internship_test.android.adapter.UserAdapter
 import com.internship_test.android.user.User
 
 class MainActivity : AppCompatActivity(), UserAdapter.Listener {
-    var fragment = Fragment()
+
+    var pref: SharedPreferences? = null
+    var userList = ArrayList<User>()
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        onBackPressed()
+        return super.onOptionsItemSelected(item)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var userList = ArrayList<User>()
         with(userList) {
             add(User("Smith", 18))
             add(User("Tom", 19))
@@ -27,44 +36,32 @@ class MainActivity : AppCompatActivity(), UserAdapter.Listener {
             add(User("Kim", 30))
             add(User("Kate", 32))
         }
-        val recyclerView: RecyclerView = findViewById(R.id.userRecycler)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = UserAdapter(this, userList)
-
-        /*{
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fragmentContainerView2, fragment)
-                addToBackStack(null)
-                commit()
-            }
-        }*/
-
-        /*var fUserName: TextView = findViewById(R.id.fUserName)
-        var fUserAge: TextView = findViewById(R.id.fUserAge)
-        var fUserIsStudent: TextView = findViewById(R.id.fUserIsStudent)
-
-        fUserName.text = NAME
-        fUserAge.text = AGE
-        fUserIsStudent.text = IS_STUDENT*/
-        if (savedInstanceState != null) onRestoreInstanceState(savedInstanceState)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
+        buildRecycler()
     }
 
     override fun onClick(user: User) {
+        var fragment = Fragment()
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportFragmentManager.beginTransaction().apply {
+            userList.add(User("Kamilla", 22))
             replace(R.id.fragmentContainerView2, fragment)
             addToBackStack(null)
             commit()
         }
-        //Toast.makeText(this, "${user.age}", Toast.LENGTH_LONG).show()
+    }
+
+    fun addUser(view: View) {
+        var name = findViewById<EditText>(R.id.input_name).text.toString()
+        var age = findViewById<EditText>(R.id.input_age).text.toString().toInt()
+        userList.add(User(name, age))
+        Toast.makeText(this, "User added successfully", Toast.LENGTH_SHORT).show()
+        buildRecycler()
+    }
+
+    private fun buildRecycler() {
+        val recyclerView: RecyclerView = findViewById(R.id.userRecycler)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = UserAdapter(this, userList)
     }
 }

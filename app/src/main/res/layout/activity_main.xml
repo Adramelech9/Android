@@ -59,7 +59,41 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/userRecycler"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.998"
-        tools:layout="@layout/fragment_user_detail" />
+        app:layout_constraintVertical_bias="0.996"
+        tools:layout="@layout/fragment_user_detail">
+
+    </FrameLayout>
+
+    <EditText
+        android:id="@+id/input_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="name"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:text="Name"
+        app:layout_constraintBottom_toTopOf="@+id/input_age"
+        app:layout_constraintEnd_toEndOf="@+id/fragmentContainerView2" />
+
+    <EditText
+        android:id="@+id/input_age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="age"
+        android:inputType="number"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="@+id/input_name" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="addUser"
+        android:text="Add User"
+        app:layout_constraintBottom_toBottomOf="@+id/fragmentContainerView2"
+        app:layout_constraintEnd_toEndOf="@+id/input_name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
