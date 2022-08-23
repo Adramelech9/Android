@@ -4,10 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
-import android.widget.CheckBox
-import android.widget.CompoundButton
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +21,10 @@ import java.lang.reflect.Type
 class MainActivity : AppCompatActivity(), UserAdapter.Listener {
 
     private lateinit var addUserPage: Button
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var sortByName: TextView
+    private lateinit var sortByAge: TextView
+    private lateinit var sortByIsStudent: TextView
     private var pref: SharedPreferences? = null
     private var userList = ArrayList<User>()
 
@@ -29,6 +32,22 @@ class MainActivity : AppCompatActivity(), UserAdapter.Listener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        sortByName = findViewById(R.id.sort_by_name)
+        sortByAge = findViewById(R.id.sort_by_age)
+        sortByIsStudent = findViewById(R.id.sort_by_is_student)
+        sortByName.setOnClickListener {
+            userList.sortBy { it.name }
+            savePref()
+        }
+        sortByAge.setOnClickListener {
+            userList.sortBy { it.age }
+            savePref()
+        }
+        sortByIsStudent.setOnClickListener {
+            userList.sortBy { it.isStudent }
+            savePref()
+        }
+        pref = getSharedPreferences("USER", Context.MODE_PRIVATE)
         addUserPage = findViewById(R.id.add_user_page)
         addUserPage.setOnClickListener {
             startActivity(Intent(this, AddUserActivity::class.java))
@@ -50,21 +69,33 @@ class MainActivity : AppCompatActivity(), UserAdapter.Listener {
         }
     }
 
-/*    override fun saveCheckBox() {
-        userList.find { it.name == UserAdapter.USER_NAME }
-            ?.isStudent = UserAdapter.USER_IS_STUDENT
-        buildRecycler(true)
-    }*/
+    //delete user
+    override fun onLongClick(user: User) {
+        AlertDialog.Builder(this)
+            .setMessage("Delete user ${user.name}?")
+            .setPositiveButton("Yes") { _, _ ->
+                userList.remove(user)
+                savePref()
+            }.setNeutralButton("No", null).show()
+    }
 
-    private fun buildRecycler(changeCheckBox: Boolean = false) {
-        pref = getSharedPreferences("USER", Context.MODE_PRIVATE)
+    override fun saveCheckBox(user: User) {
+        userList.find { it.name == user.name }?.isStudent = user.isStudent
+        savePref(false)
+    }
+
+    private fun buildRecycler() {
+        recyclerView = findViewById(R.id.userRecycler)
         val jsonString = pref?.getString("user", null)
         val type: Type = object : TypeToken<ArrayList<User>>() {}.type
-        if (!changeCheckBox)
         userList = if (jsonString == null) ArrayList()
         else Gson().fromJson(jsonString, type)
-        val recyclerView: RecyclerView = findViewById(R.id.userRecycler)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = UserAdapter(this, userList)
+    }
+
+    private fun savePref(isSort: Boolean = true) {
+        pref?.edit()?.putString("user", Gson().toJson(userList))?.apply()
+        if (isSort) recyclerView.adapter?.notifyDataSetChanged()
     }
 }

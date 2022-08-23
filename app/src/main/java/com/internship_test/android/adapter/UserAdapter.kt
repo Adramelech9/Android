@@ -31,10 +31,16 @@ class UserAdapter(private val listener: Listener, private val user: ArrayList<Us
         holder.checkBox.isChecked = user[position].isStudent
         holder.checkBox.setOnCheckedChangeListener { compoundButton, b ->
             user[position].isStudent = b
+            listener.saveCheckBox(user[position])
         }
 
         holder.itemView.setOnClickListener {
             listener.onClick(user[position])
+        }
+
+        holder.itemView.setOnLongClickListener {
+            listener.onLongClick(user[position])
+            true
         }
     }
 
@@ -42,5 +48,7 @@ class UserAdapter(private val listener: Listener, private val user: ArrayList<Us
 
     interface Listener {
         fun onClick(user: User)
+        fun onLongClick(user: User)
+        fun saveCheckBox(user: User)
     }
 }

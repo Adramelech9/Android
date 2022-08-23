@@ -6,7 +6,7 @@
     <string name="name">Name</string>
     <string name="is_student">IsStudent</string>
     <string name="age">Age</string>
-    <string name="button">Button</string>
     <string name="add_user">Add User</string>
     <string name="enter_date">Enter date</string>
+    <string name="sort">Sort by A-Z</string>
 </resources>
