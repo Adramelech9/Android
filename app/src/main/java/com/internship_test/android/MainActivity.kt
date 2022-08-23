@@ -1,12 +1,13 @@
 package com.internship_test.android
 
-import android.app.DatePickerDialog
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,45 +17,27 @@ import com.google.gson.reflect.TypeToken
 import com.internship_test.android.adapter.UserAdapter
 import com.internship_test.android.user.User
 import java.lang.reflect.Type
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity(), UserAdapter.Listener {
 
-    private lateinit var age: EditText
+    private lateinit var addUserPage: Button
     private var pref: SharedPreferences? = null
     private var userList = ArrayList<User>()
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        onBackPressed()
-        return super.onOptionsItemSelected(item)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        age = findViewById(R.id.input_age)
-        age.setOnClickListener {
-            val cal = Calendar.getInstance()
-            val year = cal.get(Calendar.YEAR)
-            val month = cal.get(Calendar.MONTH)
-            val day = cal.get(Calendar.DAY_OF_MONTH)
-            DatePickerDialog(
-                this,
-                { _, year, monthOfYear, dayOfMonth ->
-                    age.setText(dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year)
-                },
-                year, month, day
-            ).show()
+
+        addUserPage = findViewById(R.id.add_user_page)
+        addUserPage.setOnClickListener {
+            startActivity(Intent(this, AddUserActivity::class.java))
         }
+        buildRecycler()
+    }
 
-        pref = getSharedPreferences("USER", Context.MODE_PRIVATE)
-        val connectionsJSONString = pref?.getString("user", null)
-        val type: Type = object : TypeToken<ArrayList<User>>() {}.type
-        userList = if (connectionsJSONString == null) ArrayList()
-        else Gson().fromJson(connectionsJSONString, type)
-
+    override fun onResume() {
+        super.onResume()
         buildRecycler()
     }
 
@@ -67,18 +50,19 @@ class MainActivity : AppCompatActivity(), UserAdapter.Listener {
         }
     }
 
-    fun addUser(view: View) {
-        var name = findViewById<EditText>(R.id.input_name).text.toString()
+/*    override fun saveCheckBox() {
+        userList.find { it.name == UserAdapter.USER_NAME }
+            ?.isStudent = UserAdapter.USER_IS_STUDENT
+        buildRecycler(true)
+    }*/
 
-        userList.add(User(name, age.text.toString()))
-        Toast.makeText(this, "User added successfully", Toast.LENGTH_SHORT).show()
-        buildRecycler()
-        val json = Gson().toJson(userList)
-        pref?.edit()?.putString("user", json)?.apply()
-        Toast.makeText(this, "User added successfully", Toast.LENGTH_SHORT).show()
-    }
-
-    private fun buildRecycler() {
+    private fun buildRecycler(changeCheckBox: Boolean = false) {
+        pref = getSharedPreferences("USER", Context.MODE_PRIVATE)
+        val jsonString = pref?.getString("user", null)
+        val type: Type = object : TypeToken<ArrayList<User>>() {}.type
+        if (!changeCheckBox)
+        userList = if (jsonString == null) ArrayList()
+        else Gson().fromJson(jsonString, type)
         val recyclerView: RecyclerView = findViewById(R.id.userRecycler)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = UserAdapter(this, userList)
