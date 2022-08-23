@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +22,7 @@ import java.lang.reflect.Type
 class MainActivity : AppCompatActivity(), UserAdapter.Listener {
 
     private lateinit var addUserPage: Button
+    private lateinit var returnButton: ImageButton
     private lateinit var recyclerView: RecyclerView
     private lateinit var sortByName: TextView
     private lateinit var sortByAge: TextView
@@ -31,6 +34,7 @@ class MainActivity : AppCompatActivity(), UserAdapter.Listener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        returnButton = findViewById(R.id.return_back)
         sortByName = findViewById(R.id.sort_by_name)
         sortByAge = findViewById(R.id.sort_by_age)
         sortByIsStudent = findViewById(R.id.sort_by_is_student)
@@ -51,6 +55,9 @@ class MainActivity : AppCompatActivity(), UserAdapter.Listener {
         addUserPage.setOnClickListener {
             startActivity(Intent(this, AddUserActivity::class.java))
         }
+        returnButton.setOnClickListener {
+            supportFragmentManager.popBackStack()
+        }
         buildRecycler()
     }
 
@@ -60,9 +67,8 @@ class MainActivity : AppCompatActivity(), UserAdapter.Listener {
     }
 
     override fun onClick(user: User) {
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragmentContainerView2, UserDetailFragment(user))
+            replace(R.id.fView, UserDetailFragment(user))
             addToBackStack(null)
             commit()
         }

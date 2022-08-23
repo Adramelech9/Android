@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -22,6 +23,11 @@ class AddUserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_user)
 
+        val returnButton = findViewById<ImageButton>(R.id.return_back)
+        returnButton.setOnClickListener {
+            finish()
+        }
+
         age = findViewById(R.id.input_age2)
         age.setOnClickListener {
             val cal = Calendar.getInstance()
@@ -31,7 +37,8 @@ class AddUserActivity : AppCompatActivity() {
             DatePickerDialog(
                 this,
                 { _, year, monthOfYear, dayOfMonth ->
-                    age.setText(dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year)
+                    val day = if (dayOfMonth < 10) "0$dayOfMonth" else dayOfMonth
+                    age.setText("$day-${monthOfYear + 1}-$year")
                 },
                 year, month, day
             ).show()

@@ -104,7 +104,7 @@
         app:layout_constraintTop_toBottomOf="@id/sort_by_age" />
 
     <FrameLayout
-        android:id="@+id/fragmentContainerView2"
+        android:id="@+id/fView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -113,5 +113,17 @@
         tools:layout="@layout/fragment_user_detail">
 
     </FrameLayout>
+
+    <ImageButton
+        android:id="@+id/return_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:backgroundTint="@color/cardview_shadow_end_color"
+        android:minHeight="48dp"
+        android:src="@drawable/ic_baseline_close_24"
+        app:layout_constraintEnd_toEndOf="@id/fView"
+        app:layout_constraintTop_toTopOf="@id/fView" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

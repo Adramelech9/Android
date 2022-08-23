@@ -9,4 +9,5 @@
     <string name="add_user">Add User</string>
     <string name="enter_date">Enter date</string>
     <string name="sort">Sort by A-Z</string>
+    <string name="turn_back">Turn back</string>
 </resources>
