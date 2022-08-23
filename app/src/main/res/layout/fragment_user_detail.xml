@@ -5,6 +5,8 @@
     android:id="@+id/f_user_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray"
+    android:padding="10dp"
     tools:context=".UserDetailFragment">
 
     <TextView
@@ -13,6 +15,7 @@
         android:layout_height="wrap_content"
         android:text="@string/name"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,7 +23,7 @@
         android:id="@+id/fUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_blank_fragment"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fUserName2" />
 
@@ -28,7 +31,7 @@
         android:id="@+id/fUserAge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_blank_fragment"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fUserAge2" />
 
@@ -39,6 +42,7 @@
         android:layout_marginTop="24dp"
         android:text="@string/age"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fUserName" />
 
@@ -46,7 +50,7 @@
         android:id="@+id/fUserIsStudent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_blank_fragment"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fUserIsStudent2" />
 
@@ -57,6 +61,7 @@
         android:layout_marginTop="24dp"
         android:text="@string/is_student"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fUserAge" />
 

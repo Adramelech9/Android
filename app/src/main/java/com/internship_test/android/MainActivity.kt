@@ -8,7 +8,6 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
@@ -63,7 +62,7 @@ class MainActivity : AppCompatActivity(), UserAdapter.Listener {
     override fun onClick(user: User) {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragmentContainerView2, Fragment())
+            replace(R.id.fragmentContainerView2, UserDetailFragment(user))
             addToBackStack(null)
             commit()
         }
