@@ -1,23 +1,17 @@
 package com.internship_test.android
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toUri
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.internship_test.android.adapter.AnimalAdapter
-import com.internship_test.android.model.Animal
-import java.net.URL
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var showAnimals: Button
     private lateinit var returnButton: ImageButton
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var fLayout: FrameLayout
 
     private val fRandom = RandomAnimalsFragment()
 
@@ -33,18 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         showAnimals = findViewById(R.id.random_animal)
         returnButton = findViewById(R.id.back)
-        recyclerView = findViewById(R.id.flFragment)
-
-        Thread {
-            try {
-                var apiResponse = URL(URL).readText()
-
-                //var result = JSONObject(apiResponse).getString("image_link")
-                Log.d("INFO", apiResponse)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }.start()
+        fLayout = findViewById(R.id.flFragment)
 
         returnButton.setOnClickListener { onBackPressed() }
 
@@ -57,8 +40,6 @@ class MainActivity : AppCompatActivity() {
                 commit()
             }
         }
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = AnimalAdapter(arrayListOf(Animal(URL)))
     }
 
     companion object {

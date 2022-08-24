@@ -22,5 +22,15 @@ class RandomAnimalsFragment : Fragment(R.layout.fragment_random_animals) {
         animals.add(Animal("https://upload.wikimedia.org/wikipedia/commons/b/b4/Hystrix_africaeaustralis_Blijdorp_Rotterdam.JPG"))
         rvRandomAnimals.layoutManager = LinearLayoutManager(this.context)
         rvRandomAnimals.adapter = AnimalAdapter(animals)
+
+        Thread {
+            try {
+                var apiResponse = URL(MainActivity.URL).readText()
+                //var result = JSONObject(apiResponse).getString("image_link")
+                Log.d("INFO", apiResponse)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }.start()
     }
 }

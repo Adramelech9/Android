@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.internship_test.android.R
 import com.internship_test.android.model.Animal
+import com.squareup.picasso.Picasso
 
 class AnimalAdapter(private val animal: ArrayList<Animal>) :
     RecyclerView.Adapter<AnimalAdapter.AnimalViewHolder>() {
@@ -23,7 +23,7 @@ class AnimalAdapter(private val animal: ArrayList<Animal>) :
     }
 
     override fun onBindViewHolder(holder: AnimalViewHolder, position: Int) {
-        holder.animalUrl.setImageURI(animal[position].url.toUri())
+        Picasso.get().load(animal[position].url).into(holder.animalUrl)
     }
 
     override fun getItemCount() = animal.size
