@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.internship_test.android.adapter.AnimalAdapter
 import com.internship_test.android.model.Animal
+import org.json.JSONArray
+import org.json.JSONObject
 import java.net.URL
 
 class RandomAnimalsFragment : Fragment(R.layout.fragment_random_animals) {
@@ -15,22 +17,39 @@ class RandomAnimalsFragment : Fragment(R.layout.fragment_random_animals) {
     private lateinit var rvRandomAnimals: RecyclerView
     private val animals = ArrayList<Animal>()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        connectToUrl()
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         rvRandomAnimals = view.findViewById(R.id.rv_random)
-        animals.add(Animal("https://upload.wikimedia.org/wikipedia/commons/b/b4/Hystrix_africaeaustralis_Blijdorp_Rotterdam.JPG"))
         rvRandomAnimals.layoutManager = LinearLayoutManager(this.context)
         rvRandomAnimals.adapter = AnimalAdapter(animals)
+    }
 
+    private fun connectToUrl() {
         Thread {
             try {
-                var apiResponse = URL(MainActivity.URL).readText()
-                //var result = JSONObject(apiResponse).getString("image_link")
-                Log.d("INFO", apiResponse)
+                if (animals.isEmpty()) {
+                    val jsonArray = JSONArray(URL(URL).readText())
+                    for (i in 0 until jsonArray.length()) {
+                        val jsonObject: JSONObject = jsonArray.getJSONObject(i)
+                        animals.add(Animal(jsonObject.getString("image_link")))
+                    }
+                }
+                Log.d("INFO", "connection ${animals.size}")
+
             } catch (e: Exception) {
                 e.printStackTrace()
+                connectToUrl()
             }
         }.start()
+    }
+
+    companion object {
+        const val URL = "https://zoo-animal-api.herokuapp.com/animals/rand/10"
     }
 }

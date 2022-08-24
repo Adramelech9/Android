@@ -41,8 +41,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-    companion object {
-        const val URL = "https://zoo-animal-api.herokuapp.com/animals/rand/10"
-    }
 }
