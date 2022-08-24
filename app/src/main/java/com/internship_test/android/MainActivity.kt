@@ -1,53 +1,63 @@
 package com.internship_test.android
 
 import android.os.Bundle
-import android.view.MenuItem
+import android.util.Log
 import android.widget.Button
-import android.widget.TextView
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
-import com.internship_test.android.Fragment.Companion.COUNT
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.internship_test.android.adapter.AnimalAdapter
+import com.internship_test.android.model.Animal
+import java.net.URL
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var countClicks: TextView
-    private lateinit var plusCount: Button
+    private lateinit var showAnimals: Button
+    private lateinit var returnButton: ImageButton
 
-    private val fragment = Fragment()
+    private val fRandom = RandomAnimalsFragment()
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        onBackPressed()
-        return super.onOptionsItemSelected(item)
+    override fun onBackPressed() {
+        showAnimals.isVisible = true
+        returnButton.isVisible = false
+        super.onBackPressed()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        countClicks = findViewById(R.id.countClicks)
-        plusCount = findViewById(R.id.plusCount)
-        countClicks.text = "Clicks on fragment: $COUNT"
+        showAnimals = findViewById(R.id.random_animal)
+        returnButton = findViewById(R.id.back)
+
+        Thread {
+            try {
+                var apiResponse = URL(URL).readText()
+
+                //var result = JSONObject(apiResponse).getString("image_link")
+                Log.d("INFO", apiResponse)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }.start()
+
+        returnButton.setOnClickListener { onBackPressed() }
 
         if (savedInstanceState != null) onRestoreInstanceState(savedInstanceState)
-        plusCount.setOnClickListener {
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        showAnimals.setOnClickListener {
             supportFragmentManager.beginTransaction().apply {
-                replace(R.id.flFragment, fragment)
+                showAnimals.isVisible = false
+                returnButton.isVisible = true
+                replace(R.id.flFragment, fRandom)
                 addToBackStack(null)
                 commit()
             }
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putInt("count", COUNT)
-        outState.putString("countClicks", countClicks.text.toString())
-        super.onSaveInstanceState(outState)
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        COUNT = savedInstanceState.getInt("count")
-        savedInstanceState.putString("countClicks", countClicks.text.toString())
-        countClicks.text = savedInstanceState.getString("countClicks")
+    companion object {
+        const val URL = "https://zoo-animal-api.herokuapp.com/animals/rand/10"
     }
 }
