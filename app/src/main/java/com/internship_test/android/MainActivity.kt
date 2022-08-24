@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var showAnimals: Button
     private lateinit var returnButton: ImageButton
+    private lateinit var recyclerView: RecyclerView
 
     private val fRandom = RandomAnimalsFragment()
 
@@ -31,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         showAnimals = findViewById(R.id.random_animal)
         returnButton = findViewById(R.id.back)
+        recyclerView = findViewById(R.id.flFragment)
 
         Thread {
             try {
@@ -45,7 +48,6 @@ class MainActivity : AppCompatActivity() {
 
         returnButton.setOnClickListener { onBackPressed() }
 
-        if (savedInstanceState != null) onRestoreInstanceState(savedInstanceState)
         showAnimals.setOnClickListener {
             supportFragmentManager.beginTransaction().apply {
                 showAnimals.isVisible = false
@@ -55,6 +57,8 @@ class MainActivity : AppCompatActivity() {
                 commit()
             }
         }
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = AnimalAdapter(arrayListOf(Animal(URL)))
     }
 
     companion object {
