@@ -17,17 +17,13 @@ class RandomAnimalsFragment : Fragment(R.layout.fragment_random_animals) {
     private lateinit var rvRandomAnimals: RecyclerView
     private val animals = ArrayList<Animal>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        connectToUrl()
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+        connectToUrl()
         rvRandomAnimals = view.findViewById(R.id.rv_random)
-        rvRandomAnimals.layoutManager = LinearLayoutManager(this.context)
+        rvRandomAnimals.layoutManager =
+            LinearLayoutManager(this.context, RecyclerView.HORIZONTAL, false)
         rvRandomAnimals.adapter = AnimalAdapter(animals)
+        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun connectToUrl() {
@@ -41,10 +37,8 @@ class RandomAnimalsFragment : Fragment(R.layout.fragment_random_animals) {
                     }
                 }
                 Log.d("INFO", "connection ${animals.size}")
-
             } catch (e: Exception) {
                 e.printStackTrace()
-                connectToUrl()
             }
         }.start()
     }

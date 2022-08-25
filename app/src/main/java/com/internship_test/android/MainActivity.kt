@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     private val fRandom = RandomAnimalsFragment()
 
     override fun onBackPressed() {
-        showAnimals.isVisible = true
+        showAnimals.isEnabled = true
         returnButton.isVisible = false
         super.onBackPressed()
     }
@@ -30,15 +30,20 @@ class MainActivity : AppCompatActivity() {
         fLayout = findViewById(R.id.flFragment)
 
         returnButton.setOnClickListener { onBackPressed() }
-
         showAnimals.setOnClickListener {
             supportFragmentManager.beginTransaction().apply {
-                showAnimals.isVisible = false
+                showAnimals.isEnabled = false
                 returnButton.isVisible = true
                 replace(R.id.flFragment, fRandom)
                 addToBackStack(null)
                 commit()
             }
         }
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        showAnimals.isEnabled = true
+        returnButton.isVisible = false
+        super.onRestoreInstanceState(savedInstanceState)
     }
 }

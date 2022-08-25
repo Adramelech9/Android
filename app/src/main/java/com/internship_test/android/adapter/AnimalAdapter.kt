@@ -13,7 +13,7 @@ class AnimalAdapter(private val animal: ArrayList<Animal>) :
     RecyclerView.Adapter<AnimalAdapter.AnimalViewHolder>() {
 
     class AnimalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var animalUrl: ImageView = itemView.findViewById(R.id.imageView)
+        var imageView: ImageView = itemView.findViewById(R.id.imageView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimalViewHolder {
@@ -23,7 +23,7 @@ class AnimalAdapter(private val animal: ArrayList<Animal>) :
     }
 
     override fun onBindViewHolder(holder: AnimalViewHolder, position: Int) {
-        Picasso.get().load(animal[position].url).into(holder.animalUrl)
+        Picasso.get().load(animal[position].url).into(holder.imageView)
     }
 
     override fun getItemCount() = animal.size

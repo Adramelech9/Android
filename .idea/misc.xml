@@ -3,9 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22059783935546878" />
         <entry key="app/src/main/res/layout/fragment.xml" value="0.21217193603515627" />
-        <entry key="app/src/main/res/layout/fragment_random_animals.xml" value="0.18556365966796873" />
+        <entry key="app/src/main/res/layout/fragment_random_animals.xml" value="0.1" />
         <entry key="app/src/main/res/layout/image_set.xml" value="0.19927536231884058" />
       </map>
     </option>
@@ -15,5 +16,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.1" />
+      </ProjectState>
+    </option>
   </component>
 </project>
