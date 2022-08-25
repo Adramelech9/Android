@@ -1,7 +1,6 @@
 package com.internship_test.android
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,15 +17,11 @@ class RandomAnimalsFragment : Fragment(R.layout.fragment_random_animals) {
     private val animals = ArrayList<Animal>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        connectToUrl()
-        rvRandomAnimals = view.findViewById(R.id.rv_random)
-        rvRandomAnimals.layoutManager =
-            LinearLayoutManager(this.context, RecyclerView.HORIZONTAL, false)
-        rvRandomAnimals.adapter = AnimalAdapter(animals)
+        connectToUrl(view)
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun connectToUrl() {
+    private fun connectToUrl(view: View) {
         Thread {
             try {
                 if (animals.isEmpty()) {
@@ -36,11 +31,19 @@ class RandomAnimalsFragment : Fragment(R.layout.fragment_random_animals) {
                         animals.add(Animal(jsonObject.getString("image_link")))
                     }
                 }
-                Log.d("INFO", "connection ${animals.size}")
+                rvBuild(view)
             } catch (e: Exception) {
                 e.printStackTrace()
+                connectToUrl(view)
             }
         }.start()
+    }
+
+    private fun rvBuild(view: View) {
+        rvRandomAnimals = view.findViewById(R.id.rv_random)
+        rvRandomAnimals.layoutManager =
+            LinearLayoutManager(this.context, RecyclerView.HORIZONTAL, false)
+        rvRandomAnimals.adapter = AnimalAdapter(animals)
     }
 
     companion object {
