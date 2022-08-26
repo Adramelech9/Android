@@ -1,27 +1,37 @@
-package com.internship_test.android
+package com.internship_test.android.fragment
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.internship_test.android.adapter.AnimalAdapter
+import com.internship_test.android.databinding.FragmentRandomBinding
 import com.internship_test.android.model.Animal
 import org.json.JSONArray
 import org.json.JSONObject
 import java.net.URL
 
-class RandomAnimalsFragment : Fragment(R.layout.fragment_random_animals) {
-
-    private lateinit var rvRandomAnimals: RecyclerView
+class RandomAnimalsFragment : Fragment() {
+    private lateinit var binding: FragmentRandomBinding
     private val animals = ArrayList<Animal>()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        connectToUrl(view)
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentRandomBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    private fun connectToUrl(view: View) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        connectToUrl()
+    }
+
+    private fun connectToUrl() {
         Thread {
             try {
                 if (animals.isEmpty()) {
@@ -31,18 +41,21 @@ class RandomAnimalsFragment : Fragment(R.layout.fragment_random_animals) {
                         animals.add(Animal(jsonObject.getString("image_link")))
                     }
                 }
-                rvBuild(view)
+                rvBuild()
             } catch (e: Exception) {
                 e.printStackTrace()
-                connectToUrl(view)
+                connectToUrl()
             }
         }.start()
     }
 
-    private fun rvBuild(view: View) {
-        rvRandomAnimals = view.findViewById(R.id.rv_random)
-        rvRandomAnimals.layoutManager = LinearLayoutManager(this.context)
-        rvRandomAnimals.adapter = AnimalAdapter(animals)
+    private fun rvBuild() {
+        activity?.runOnUiThread {
+            binding.rvRandom.layoutManager = LinearLayoutManager(
+                this.context, LinearLayoutManager.HORIZONTAL, false
+            )
+            binding.rvRandom.adapter = AnimalAdapter(animals)
+        }
     }
 
     companion object {

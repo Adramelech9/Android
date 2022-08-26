@@ -6,11 +6,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayoutMediator
 import com.internship_test.android.adapter.VPAdapter
 import com.internship_test.android.databinding.ActivityMainBinding
+import com.internship_test.android.fragment.FavoriteFragment
+import com.internship_test.android.fragment.RandomAnimalsFragment
+import com.internship_test.android.model.MainViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    //private val model: MainViewModel by viewModels()
+    private val model: MainViewModel by viewModels()
     private val fragmentList = listOf(
         RandomAnimalsFragment.newInstance(),
         FavoriteFragment.newInstance()
