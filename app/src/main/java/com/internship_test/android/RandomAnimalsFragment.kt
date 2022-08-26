@@ -41,12 +41,13 @@ class RandomAnimalsFragment : Fragment(R.layout.fragment_random_animals) {
 
     private fun rvBuild(view: View) {
         rvRandomAnimals = view.findViewById(R.id.rv_random)
-        rvRandomAnimals.layoutManager =
-            LinearLayoutManager(this.context, RecyclerView.HORIZONTAL, false)
+        rvRandomAnimals.layoutManager = LinearLayoutManager(this.context)
         rvRandomAnimals.adapter = AnimalAdapter(animals)
     }
 
     companion object {
+        @JvmStatic
+        fun newInstance() = RandomAnimalsFragment()
         const val URL = "https://zoo-animal-api.herokuapp.com/animals/rand/10"
     }
 }

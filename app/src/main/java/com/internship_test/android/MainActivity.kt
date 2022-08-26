@@ -1,49 +1,31 @@
 package com.internship_test.android
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.FrameLayout
-import android.widget.ImageButton
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
+import com.google.android.material.tabs.TabLayoutMediator
+import com.internship_test.android.adapter.VPAdapter
+import com.internship_test.android.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var showAnimals: Button
-    private lateinit var returnButton: ImageButton
-    private lateinit var fLayout: FrameLayout
+    private lateinit var binding: ActivityMainBinding
+    //private val model: MainViewModel by viewModels()
+    private val fragmentList = listOf(
+        RandomAnimalsFragment.newInstance(),
+        FavoriteFragment.newInstance()
+    )
 
-    private val fRandom = RandomAnimalsFragment()
-
-    override fun onBackPressed() {
-        showAnimals.isEnabled = true
-        returnButton.isVisible = false
-        super.onBackPressed()
-    }
+    private val titleList = listOf("random", "favorite")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        showAnimals = findViewById(R.id.random_animal)
-        returnButton = findViewById(R.id.back)
-        fLayout = findViewById(R.id.flFragment)
-
-        returnButton.setOnClickListener { onBackPressed() }
-        showAnimals.setOnClickListener {
-            supportFragmentManager.beginTransaction().apply {
-                showAnimals.isEnabled = false
-                returnButton.isVisible = true
-                replace(R.id.flFragment, fRandom)
-                addToBackStack(null)
-                commit()
-            }
-        }
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        showAnimals.isEnabled = true
-        returnButton.isVisible = false
-        super.onRestoreInstanceState(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        val adapter = VPAdapter(this, fragmentList)
+        binding.vp2.adapter = adapter
+        TabLayoutMediator(binding.tabLayout, binding.vp2) { tab, pos ->
+            tab.text = titleList[pos]
+        }.attach()
     }
 }

@@ -6,8 +6,9 @@
         <entry key="../../../../layout/custom_preview.xml" value="0.15092592592592594" />
         <entry key="app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.22059783935546878" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment.xml" value="0.21217193603515627" />
+        <entry key="app/src/main/res/layout/fragment_favorite.xml" value="0.2726449275362319" />
         <entry key="app/src/main/res/layout/fragment_random_animals.xml" value="0.11821136474609373" />
         <entry key="app/src/main/res/layout/image_set.xml" value="0.19927536231884058" />
       </map>
@@ -22,7 +23,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.1" />
+        <option name="scale" value="0.22059783935546878" />
       </ProjectState>
     </option>
   </component>

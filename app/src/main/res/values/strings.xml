@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Android</string>
     <string name="countClicks">Count of clicks: 0</string>
-    <string name="random_animals">random animals</string>
+    <string name="random_animals">Random</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="favorite">favorite</string>
 </resources>
