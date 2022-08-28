@@ -1,31 +1,47 @@
 package com.internship_test.android.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.internship_test.android.R
-import com.internship_test.android.fragment.FavoriteFragment
+import com.internship_test.android.databinding.FragmentFavoriteBinding
 import com.internship_test.android.model.Animal
 import com.squareup.picasso.Picasso
 
-class FavoriteAdapter(private val animal: ArrayList<Animal>) :
-    RecyclerView.Adapter<FavoriteAdapter.AnimalViewHolder>() {
+class FavoriteAdapter(private val animalList: List<Animal>) :
+    ListAdapter<Animal, FavoriteAdapter.ItemHolder>(ItemComparator()) {
 
-    class AnimalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var imageView: ImageView = itemView.findViewById(R.id.iv_favorite)
+    class ItemHolder(binding: FragmentFavoriteBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        companion object {
+            fun create(parent: ViewGroup): ItemHolder {
+                return ItemHolder(
+                    FragmentFavoriteBinding
+                        .inflate(LayoutInflater.from(parent.context), parent, false)
+                )
+            }
+        }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimalViewHolder {
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.fragment_favorite, parent, false)
-        return AnimalViewHolder(itemView)
+    class ItemComparator : DiffUtil.ItemCallback<Animal>() {
+        override fun areItemsTheSame(oldItem: Animal, newItem: Animal) = oldItem == newItem
+
+        @SuppressLint("DiffUtilEquals")
+        override fun areContentsTheSame(oldItem: Animal, newItem: Animal) = oldItem == newItem
     }
 
-    override fun onBindViewHolder(holder: AnimalViewHolder, position: Int) {
-        Picasso.get().load(animal[position].url).into(holder.imageView)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
+        return ItemHolder.create(parent)
     }
 
-    override fun getItemCount() = animal.size
+    override fun onBindViewHolder(holder: ItemHolder, position: Int) {
+        val imageView: ImageView = holder.itemView.findViewById(R.id.iv_favorite)
+        Picasso.get().load(animalList[position].url).into(imageView)
+    }
+
 }
