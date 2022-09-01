@@ -35,6 +35,7 @@ class FavoriteFragment : Fragment() {
     private fun onChangeListener(favRef: DatabaseReference, listAnimal: ArrayList<Animal>) {
         favRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                listAnimal.clear()
                 for (s in snapshot.children) {
                     val animal = s.getValue(Animal::class.java)
                     if (animal != null) listAnimal.add(animal)
